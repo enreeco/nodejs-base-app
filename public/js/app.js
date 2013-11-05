@@ -4,14 +4,12 @@
           http://about.me/enreeco
           @enreeco
  **/
-
-"use strict";
+'use strict';
 
 $ = jQuery.noConflict();
 
-var angmodule = angular.module("UtilityApp",['loadingOnAJAX']);
-
 //loading image on
+
 angular.module('loadingOnAJAX', [])
     .config(function($httpProvider) {
         var numLoadings = 0;
@@ -26,6 +24,8 @@ angular.module('loadingOnAJAX', [])
             };
         });
     });
+
+var angmodule = angular.module("UtilityApp",['$strap.directives','loadingOnAJAX']);
 
 angmodule.config(['$routeProvider', function ($routeProvider) {
 	$routeProvider

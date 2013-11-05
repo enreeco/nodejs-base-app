@@ -36,15 +36,18 @@ angmodule.controller("MenuCtrl",
 );
 
 angmodule.controller("HomeCtrl",
-    function($scope, $http, $filter, $location, AppUtils, APIProxy){
+    function($scope, $http, $filter, $location, $modal, $q, AppUtils, APIProxy){
     	console.log('HomeCtrl');
 
         $scope.apiCall = function(){
             APIProxy.apiCall(function(data){
-                handleInfo('Server responded: '+JSON.stringify(data));
+                msg = 'Server responded: '+JSON.stringify(data);
+                var modalPromise = AppUtils.createInfoMessage(msg,'success',$modal,$scope,$q);
+               
             },
             function(error){
-                handleError('Server error: '+JSON.stringify(error));
+                msg = 'Server error: '+JSON.stringify(error);
+                var modalPromise = AppUtils.createInfoMessage(msg,'error',$modal,$scope,$q);
             });
         }
         //$scope.$emit(AppUtils.Const.Events.LOCATION_CHANGE,{});
@@ -57,13 +60,3 @@ angmodule.controller("AboutCtrl",
         //$scope.$emit(AppUtils.Const.Events.LOCATION_CHANGE,{});
     }
 );
-
-
-
-function handleError(msg){
-    alert(msg);
-}
-
-function handleInfo(msg){
-    alert(msg);
-}
