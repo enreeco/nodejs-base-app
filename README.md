@@ -15,6 +15,13 @@ To use the Passport facilities, set your hostname in the *config.js* file:
 	//current host name (MUST BE REPLACED WITH YOUR APP URL)
 	var currentHost = 'http://localhost'+exports.PORT;
 
+Set the environmentals variables for social networks client key/password (see *config.js* file):
+
+Es.:
+
+	TWITTER_CLIENT_ID=XXXXX
+	TWITTER_CLIENT_SECRET=YYYYY
+
 Libraries and dependancies:
 
 - http://nodejs.org

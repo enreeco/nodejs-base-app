@@ -11,6 +11,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var GithubStrategy = require('passport-github').Strategy;
 var LinkedinStrategy = require('passport-linkedin').Strategy;
+var model = require('../model');
 
 exports.passport = passport;
 
@@ -26,6 +27,31 @@ passport.deserializeUser(function(serializedUser, done) {
   };
 });
 
+/*
+	Handles the saving of user profile for first registration
+*/
+function saveOrCreateUser(profile, callback){
+
+	model.User.findOne({serviceId: profile.id, service: profile.service}, function(error, user){
+		if(error){
+			return callback(error);
+		}
+		if(user){
+			return callback(null,user);
+		}
+
+		var newUser = new model.User({serviceId: profile.id, 
+					username: profile.username,
+					service: profile.service,
+					displayName: profile.displayName});
+		newUser.save(function(error,user){
+			if(error){
+				return callback(error);
+			}
+			callback(null, user);
+		});
+	});
+}
 
 passport.use(new TwitterStrategy({
     consumerKey: C.PASSPORT.Twitter.ConsumerKey,
@@ -35,10 +61,11 @@ passport.use(new TwitterStrategy({
   function(token, tokenSecret, profile, done) {
 		C.debug('Twitter profile');
 		C.debug(profile);
-		done(null, {id: profile.id, 
+		profile = {id: profile.id, 
 					username: profile.username,
 					service: 'twitter',
-					displayName: profile.displayName});
+					displayName: profile.displayName};
+		saveOrCreateUser(profile, done);
 		
 }));
 
@@ -50,11 +77,11 @@ passport.use(new FacebookStrategy({
   function(token, tokenSecret, profile, done) {
 		C.debug('Facebook profile');
 		C.debug(profile);
-
-		done(null, {id: profile.id, 
+		profile = {id: profile.id, 
 					username: profile.emails[0]["value"],
 					service: 'facebook',
-					displayName: profile.displayName});
+					displayName: profile.displayName};
+		saveOrCreateUser(profile, done);
 		
 }));
 
@@ -66,10 +93,12 @@ passport.use(new GoogleStrategy({
   function(accessToken, refreshToken, profile, done) {
 		C.debug('Google profile');
 		C.debug(profile);
-		done(null, {id: profile.id, 
+		profile = {id: profile.id, 
 					username: profile.emails[0]["value"],
 					service: 'google',
-					displayName: profile.displayName});
+					displayName: profile.displayName};
+		saveOrCreateUser(profile, done);
+
   }
   ));
 
@@ -81,10 +110,12 @@ passport.use(new GithubStrategy({
   function(accessToken, refreshToken, profile, done) {
 		C.debug('GitHub profile');
 		C.debug(profile);
-		done(null, {id: profile.id, 
+		profile = {id: profile.id, 
 					username: profile.username,
 					service: 'github',
-					displayName: profile.displayName});
+					displayName: profile.displayName};
+		saveOrCreateUser(profile, done);
+
   }
   ));
 
@@ -97,10 +128,12 @@ passport.use(new LinkedinStrategy({
   function(accessToken, refreshToken, profile, done) {
 		C.debug('LinkedIn profile');
 		C.debug(profile);
-		done(null, {id: profile.id, 
+		profile = {id: profile.id, 
 					username: profile.username,
 					service: 'linkedin',
-					displayName: profile.displayName});
+					displayName: profile.displayName};
+		saveOrCreateUser(profile, done);
+
   }
   ));
 

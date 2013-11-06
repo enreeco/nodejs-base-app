@@ -24,42 +24,19 @@
             
           </ul>
 
+          <!-- NOT LOGGED -->
           <form class="navbar-form navbar-right" ng-hide="user">
             <div class="form-group">
               <a href="/auth/google" title="Login with Google+" class="btn btn-primary"><i class="fa fa-google-plus "></i></a>
               <a href="/auth/facebook" title="Login with Facebook" class="btn btn-primary"><i class="fa fa-facebook "></i></a>
               <a href="/auth/twitter" title="Login with Twitter" class="btn btn-primary"><i class="fa fa-twitter "></i></a>
-              <a href="/auth/github" title="Login with Github" class="btn btn-primary"><i class="fa fa-github "></i></a>
+              <a href="/auth/github" title="Login with Github" class="btn btn-primary"><i class="fa fa-github-alt"></i></a>
               <a href="/auth/linkedin" title="Login with LinkedIn" class="btn btn-primary"><i class="fa fa-linkedin "></i></a>
               <span style="color:white; font-size:x-small"> OR </span>
               <a ng-click="register()" title="Register" class="btn btn-success btn-xs">REGISTER</a>
             </div>
           </form>
 
-          <!-- NOT LOGGED 
-          <ul class="nav navbar-nav navbar-right" ng-hide="user">
-            <li style="text-align:right">
-                <a href="/auth/facebook" title="Login with Facebook"><i class="fa fa-facebook "></i></a>
-            </li>
-            <li style="text-align:right">
-                <a href="/auth/twitter" title="Login with Twitter"><i class="fa fa-twitter "></i></a>
-             </li>
-            <li style="text-align:right">
-                <a href="/auth/github" title="Login with Github"><i class="fa fa-github "></i></a>
-             </li>
-            <li style="text-align:right">
-                <a href="/auth/google" title="Login with Google+"><i class="fa fa-google-plus "></i></a>
-             </li>
-            <li style="text-align:right">
-                <a href="/auth/linkedin" title="Login with LinkedIn"><i class="fa fa-linkedin "></i></a>
-            </li>
-            <li class="dropdown-header"> <span>OR</span> </li>
-            <li>
-                <a href="/auth/register">REGISTER</a>
-            </li>
-          </ul>
-          -->
-          
           <!-- LOGGED IN -->
           <ul class="nav navbar-nav navbar-right" ng-show="user">
             <li class="dropdown">
@@ -69,7 +46,7 @@
                     <i class="fa fa-square-o fa-stack-2x"></i>
                     <i class="fa fa-facebook fa-stack-1x" ng-show="user.service == 'facebook'"/>
                     <i class="fa fa-twitter  fa-stack-1x" ng-show="user.service == 'twitter'"/>
-                    <i class="fa fa-github  fa-stack-1x" ng-show="user.service == 'github'"/>
+                    <i class="fa fa-github-alt  fa-stack-1x" ng-show="user.service == 'github'"/>
                     <i class="fa fa-google-plus  fa-stack-1x" ng-show="user.service == 'google'"/>
                     <i class="fa fa-linkedin  fa-stack-1x" ng-show="user.service == 'linkedin'"/>
                   </span>

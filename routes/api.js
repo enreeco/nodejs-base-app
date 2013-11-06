@@ -6,15 +6,22 @@
  **/
 
 exports.call = function(req,res){
-	res.send({data: Date()});
+	if(currentUser(req))
+		res.send({data: Date()});
+	else
+		res.send('User not logged!');
 };
 
 exports.isLogged = function(req,res){
-	var user = (req.session && req.session.passport)?req.session.passport.user:null;
-	res.send(user);
+	res.send(currentUser(req));
 }
 
 exports.logout = function(req,res){
 	req.logout();
 	res.send({});
+}
+
+function currentUser(req){
+	var user = (req.session && req.session.passport && req.session.passport.user)?req.session.passport.user:null;
+	return user;
 }

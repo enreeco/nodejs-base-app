@@ -11,9 +11,13 @@ var db = mongoose.connection;
 	});
 
 /* Single request inside a given bin */
-var anObjectSchema = mongoose.Schema({
-    	name : String,
-    	created: { type: Date, default: Date.now }
+var userSchema = mongoose.Schema({
+    	username : String,	//username
+    	email: String,		//email
+    	service: String, 	//social service used
+    	serviceId: String,	//social service ID
+    	displayName : String,
+    	created: { type: Date, default: Date.now }	//created date
 	},
-	{ collection : 'AnObject' });
-exports.AnObject = mongoose.model('AnObject', anObjectSchema);
+	{ collection : 'User' });
+exports.User = mongoose.model('User', userSchema);
