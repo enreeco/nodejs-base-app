@@ -17,11 +17,11 @@ angmodule.controller("GlobalCtrl",
 );
 
 angmodule.controller("MenuCtrl",
-    function($scope, $http, $filter, $location, AppUtils, APIProxy){
+    function($scope, $http, $filter, $location, $q, $modal, AppUtils, APIProxy){
         console.log('MenuCtrl');
 
+        //used to know which is the current tab in the menu
         $scope.isActiveTab   = function(tabNameURL) {
-
             if(typeof tabNameURL === 'string') {
                 return tabNameURL === $location.$$path;
             }
@@ -31,6 +31,37 @@ angmodule.controller("MenuCtrl",
                         return true;
             }
             return false;
+        }
+
+        //is user logged in?
+        $scope.user = null;
+        $scope.isLogged = function(){
+            APIProxy.isLogged(function(user){
+                $scope.user = user;
+                console.log(user);
+            },
+            function(err){
+                var msg = 'Login failed: '+err;
+                var modalPromise = AppUtils.createInfoMessage(msg,'error',$scope);
+            });
+        }
+        $scope.isLogged();
+
+        /* logs user out */
+        $scope.logout = function(){
+            APIProxy.logout(function(user){
+                $scope.user = null;
+            },
+            function(err){
+                var msg = 'Logout failed: '+err;
+                var modalPromise = AppUtils.createInfoMessage(msg,'error',$scope);
+            });
+        }
+
+        /* register user (simply shows info)*/
+        $scope.register = function(){
+            var msg = 'Simply login through a social network. <br/> Remember to read';
+            var modalPromise = AppUtils.createInfoMessage(AppUtils.Const.Modals.MODAL_REGISTRATION_URL,'custom',$scope);
         }
     }
 );
@@ -42,12 +73,12 @@ angmodule.controller("HomeCtrl",
         $scope.apiCall = function(){
             APIProxy.apiCall(function(data){
                 msg = 'Server responded: '+JSON.stringify(data);
-                var modalPromise = AppUtils.createInfoMessage(msg,'success',$modal,$scope,$q);
+                var modalPromise = AppUtils.createInfoMessage(msg,'success',$scope);
                
             },
             function(error){
                 msg = 'Server error: '+JSON.stringify(error);
-                var modalPromise = AppUtils.createInfoMessage(msg,'error',$modal,$scope,$q);
+                var modalPromise = AppUtils.createInfoMessage(msg,'error',$scope);
             });
         }
         //$scope.$emit(AppUtils.Const.Events.LOCATION_CHANGE,{});

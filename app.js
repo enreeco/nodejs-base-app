@@ -8,7 +8,9 @@
 var express = require('express');
 var routes = require('./routes');
 var C = require('./config');
+var passportHandler = require('./passport');
 var MongoStore = require('connect-mongo')(express);
+
 var app = express();
 var PORT = C.PORT;
 
@@ -20,16 +22,47 @@ app.configure(function() {
     app.use(express.cookieParser());
     
     app.use(express.session({
-      secret: 'cs secret',
+      secret: 'incredible secret ##@@:O',
       expires: new Date(Date.now() + (24*60*60) ),
       store: new MongoStore({ url: C.DB.url })
     }));
+    app.use(passportHandler.passport.initialize());
+    app.use(passportHandler.passport.session());
+
     app.use(express.bodyParser());
     app.use(express.logger());
 });
 
+/******************************************
+                SITE ROUTES
+ ******************************************/
 app.get('/',routes.mainRoute);
+
+/******************************************
+                API ROUTES
+ ******************************************/
 app.get('/api/call', routes.api.call);
+app.post('/api/isLogged', routes.api.isLogged);
+app.post('/api/logout', routes.api.logout);
+
+/******************************************
+      SOCIAL ACCOUNTS PASSPORT ROUTES
+ ******************************************/
+//Twitter Passport
+app.get('/auth/twitter', passportHandler.twitterAuthRequest);
+app.get('/auth/twitter/callback', passportHandler.twitterAuthCallback);
+//Facebook Passport
+app.get('/auth/facebook', passportHandler.facebookAuthRequest);
+app.get('/auth/facebook/callback', passportHandler.facebookAuthCallback);
+//Goole Passport
+app.get('/auth/google', passportHandler.googleAuthRequest);
+app.get('/auth/google/callback', passportHandler.googleAuthCallback);
+//Github Passport
+app.get('/auth/github', passportHandler.githubAuthRequest);
+app.get('/auth/github/callback', passportHandler.githubAuthCallback);
+//LinkedIn Passport
+app.get('/auth/linkedin', passportHandler.linkedinAuthRequest);
+app.get('/auth/linkedin/callback', passportHandler.linkedinAuthCallback);
 
 exports.server = app.listen(PORT, function() {
     console.log("Listening on " + PORT);

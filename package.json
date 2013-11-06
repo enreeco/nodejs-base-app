@@ -6,7 +6,13 @@
         "ejs": "*",
         "request":"2.27.x",
         "connect-mongo":"0.3.x",
-        "mongoose": "3.6.x"
+        "mongoose": "3.6.x",
+        "passport":"0.1.x",
+        "passport-twitter":"1.0.x",
+        "passport-facebook":"1.0.x",
+        "passport-google-oauth":"0.1.x",
+        "passport-github":"0.1.x",
+        "passport-linkedin":"0.1.x"
     },
     "engines": {
         "node": "0.10.x",

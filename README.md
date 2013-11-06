@@ -10,6 +10,21 @@ with your app info (if you need Analytics; otherwise remove the script).
 
 Configure the *config/index.js* file with your mongo DB endpoint
 
+To use the Passport facilities, set your hostname in the *config.js* file:
+	
+	//current host name (MUST BE REPLACED WITH YOUR APP URL)
+	var currentHost = 'http://localhost'+exports.PORT;
+
+Libraries and dependancies:
+
+- http://nodejs.org
+- http://www.mongodb.org
+- http://angularjs.org
+- http://jquery.com
+- http://getbootstrap.com
+- http://fontawesome.io
+- http://mgcrea.github.io/angular-strap
+
 ==
 
 Author: Enrico Murru
